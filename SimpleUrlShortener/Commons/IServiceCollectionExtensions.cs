@@ -46,6 +46,8 @@ namespace SimpleUrlShortener.Commons
                 services.AddScoped(implementedInterface, ImplementedType);
             }
 
+            services.AddHostedService<PurgeExpiredDescriptionBackgroundService>();
+
             return services;
         }
     }

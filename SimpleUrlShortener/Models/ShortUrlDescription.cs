@@ -2,6 +2,8 @@
 {
     public class ShortUrlDescription
     {
+        public const int IdMaxLength = 9;
+
         public string Id { get; set; }
 
         public required string DestinationUrl { get; set; }

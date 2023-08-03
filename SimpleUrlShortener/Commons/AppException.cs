@@ -27,4 +27,15 @@
         {
         }
     }
+
+    public class WebScrapperException : AppException
+    {
+        public WebScrapperException(string? message) : base(message)
+        {
+        }
+
+        public WebScrapperException(string? message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
 }

@@ -94,9 +94,9 @@ namespace SimpleUrlShortener.Tests.FunctionnalTests
             var fakeUser = new IdentityUser()
             {
                 Id = Guid.NewGuid().ToString(),
-                UserName = TestHelper.RandomString(10),
+                UserName = SimpleUrlShortener.Commons.StringUtility.RandomString(10),
             };
-            var fakeUserPassword = TestHelper.RandomString(15);
+            var fakeUserPassword = SimpleUrlShortener.Commons.StringUtility.RandomString(15);
             return (fakeUser, fakeUserPassword);
         }
     }

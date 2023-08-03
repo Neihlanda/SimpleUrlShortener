@@ -15,7 +15,7 @@ namespace SimpleUrlShortener.Commons
         public static bool IsSucceeded(this IdentityResult result)
         {
             if (!result.Succeeded)
-            {
+            {   //TODO: Réadapter le type d'exception ici une fois la gestion d'erreur prête
                 var argEx = new ArgumentException("L'opération est invalide.");
                 argEx.Data[IdentityErrorExceptionDataKey] = string.Join(' ', result.Errors.Select(p => p.Description));
                 throw argEx;

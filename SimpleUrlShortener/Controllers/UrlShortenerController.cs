@@ -45,7 +45,7 @@ namespace SimpleUrlShortener.Controllers
         }
 
 
-        [HttpGet("createdbyme"), Authorize]
+        [HttpGet("CreatedByMe"), Authorize]
         public async Task<IActionResult> GetMyUrl()
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
