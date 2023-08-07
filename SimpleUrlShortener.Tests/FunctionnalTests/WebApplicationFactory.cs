@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace SimpleUrlShortener.Tests.FunctionnalTests
 {
     [Collection("IntegrationDatabase")]
-    internal class SimpleShortenerWebApplicationFactory : WebApplicationFactory<Program>
+    public class SimpleShortenerWebApplicationFactory : WebApplicationFactory<Program>
     {
 
         static readonly string FunctionnalTestDb = Path.GetTempFileName();

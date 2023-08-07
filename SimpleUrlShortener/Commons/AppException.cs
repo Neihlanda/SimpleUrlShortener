@@ -38,4 +38,15 @@
         {
         }
     }
+
+    public class AppIdentityException : AppException
+    {
+        public AppIdentityException(string? message) : base(message)
+        {
+        }
+
+        public AppIdentityException(string? message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
 }

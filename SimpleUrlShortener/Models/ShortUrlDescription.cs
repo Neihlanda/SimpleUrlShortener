@@ -3,6 +3,9 @@
     public class ShortUrlDescription
     {
         public const int IdMaxLength = 9;
+        public const int ExpirationDelayUnkownOwner = 7;
+        public const int ExpirationDelayKnownOwner = 30;
+
 
         public string Id { get; set; }
 

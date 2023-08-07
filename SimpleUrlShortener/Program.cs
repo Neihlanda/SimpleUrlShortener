@@ -14,8 +14,8 @@ builder.Services
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-//TODO: Faire la gestion d'erreur custom + migration db
-app.UseHttpsRedirection();
+app.UseGlobalExceptionHandler()
+   .UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())
 {
@@ -29,7 +29,9 @@ app.MapControllers();
 app.UseStaticFiles();
 app.MapFallbackToFile("index.html");
 
+app.ApplyDatabasePendingMigration();
+
 app.Run();
 
-//déclaration de la classe ici pour manipulation dans le projet de test.
+//dÃ©claration de la classe ici pour manipulation dans le projet de test.
 public partial class Program { }

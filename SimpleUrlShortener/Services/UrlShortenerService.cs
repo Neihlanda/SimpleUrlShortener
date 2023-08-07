@@ -26,8 +26,10 @@ namespace SimpleUrlShortener.Services
             urlToCreate.ScrappedDescription = htmlHead.Description;
             urlToCreate.ScrappedTitle = htmlHead.Title;
 
-            //simple règle, si utilisateur inscrit alors on garde plus longtemp la données
-            int dayToAdd = string.IsNullOrEmpty(urlToCreate.OwnerId) ? 7 : 30;
+            //simple règle, si utilisateur inscrit alors on garde plus longtemps la donnée
+            int dayToAdd = string.IsNullOrEmpty(urlToCreate.OwnerId)
+                ? ShortUrlDescription.ExpirationDelayUnkownOwner
+                : ShortUrlDescription.ExpirationDelayKnownOwner;
             urlToCreate.ExpiredOn = DateTime.Now.Date.AddDays(dayToAdd);
 
             _appDbContext.ShortUrlDescriptions.Add(urlToCreate);
@@ -43,7 +45,7 @@ namespace SimpleUrlShortener.Services
             if(urlDescription != null)
             {
                 if (urlDescription.UniqueAccess && urlDescription.AccessCount > 0)
-                    throw new ArgumentException("L'URL demandée n'est plus accessible.");
+                    return null;
 
                 urlDescription.AccessCount++;
                 await _appDbContext.SaveChangesAsync();
@@ -87,7 +89,7 @@ namespace SimpleUrlShortener.Services
         private async Task<Uri> ValidateAndParseUrlToCreate(ShortUrlDescription urlToCreate)
         {
             ArgumentNullException.ThrowIfNull(urlToCreate, nameof(urlToCreate));
-            Uri validUri = null;
+            Uri? validUri = null;
 
             if (string.IsNullOrEmpty(urlToCreate.DestinationUrl))
                 throw new ArgumentException("L'url ne peut pas être vide.");

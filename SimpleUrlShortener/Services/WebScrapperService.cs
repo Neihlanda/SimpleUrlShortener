@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using SimpleUrlShortener.Commons;
 using SimpleUrlShortener.Models;
@@ -23,12 +24,10 @@ namespace SimpleUrlShortener.Services
                     Description = metaDescription?.GetAttributeValue("content", null)
                 };
             }
-            catch(HtmlWebException webEx)
+            catch(Exception ex)
             {
-                throw new WebScrapperException("Impossible de charger les métadonnées de la page cible.", webEx);
-            }
-            catch (Exception)
-            {
+                if(ex is HtmlWebException || ex is System.Net.WebException)
+                    throw new WebScrapperException("Impossible de charger les métadonnées de la page cible.", ex);
                 throw;
             }
         }

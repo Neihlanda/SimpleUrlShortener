@@ -7,7 +7,7 @@ using System.Security.Authentication;
 
 namespace SimpleUrlShortener.Controllers
 {
-    [Route("api/[controller]"), Authorize]
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -36,14 +36,14 @@ namespace SimpleUrlShortener.Controllers
             return Ok();
         }
 
-        [HttpPost("Logout")]
+        [HttpPost("Logout"), Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return Ok();
         }
 
-        [HttpPost("SignIn")]
+        [HttpPost("SignIn"), AllowAnonymous]
         public async Task<IActionResult> SignIn([FromBody] SigninRequest signinRequest)
         {
             if (signinRequest == null)

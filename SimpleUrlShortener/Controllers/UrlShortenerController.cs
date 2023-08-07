@@ -23,7 +23,9 @@ namespace SimpleUrlShortener.Controllers
         public async Task<IActionResult> GetShortUrlDescription(string id)
         {
             var description = await _urlShortenerService.GetShortUrl(id);
-            return description == null ? Ok(description) : NotFound();            
+            return description == null
+                ? throw new KeyNotFoundException("L'URL demandée est introuvable.")
+                : Ok(description);            
         }
 
         [HttpPost]
@@ -43,8 +45,7 @@ namespace SimpleUrlShortener.Controllers
                 OwnerId = userId
             }));
         }
-
-
+        
         [HttpGet("CreatedByMe"), Authorize]
         public async Task<IActionResult> GetMyUrl()
         {
