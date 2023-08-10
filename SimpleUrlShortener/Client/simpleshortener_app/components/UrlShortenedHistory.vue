@@ -29,12 +29,10 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from 'vue-toast-notification';
 const shortenedUrlStore = useShortenedUrlStore();
 const urlHistory = computed(() => shortenedUrlStore.history);
 const isFetching = computed(() => shortenedUrlStore.isFetching);
-
-const $toast = useToast();
+const { $toast } = useNuxtApp();
 
 onMounted(() => {
   shortenedUrlStore.fetchHistory();

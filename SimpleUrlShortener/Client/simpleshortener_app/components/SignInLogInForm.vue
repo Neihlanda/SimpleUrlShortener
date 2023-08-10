@@ -29,7 +29,6 @@
 
 
 <script setup lang="ts">
-import { useToast } from 'vue-toast-notification';
 import { ErrorDetails } from 'models';
 
 const account = useAccountStore();
@@ -37,7 +36,7 @@ const account = useAccountStore();
 const username = ref('');
 const password = ref('');
 const isFetching = ref(false);
-const $toast = useToast();
+const { $toast } = useNuxtApp();;
 
 function register() {
   if(isFetching.value) return;

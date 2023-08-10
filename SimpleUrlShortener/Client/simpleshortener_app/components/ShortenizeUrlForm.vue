@@ -22,14 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from 'vue-toast-notification';
 import { ErrorDetails, ShortUrlDescription } from '../models';
 const urlToShortenize = ref('');
 const urlIsUniqueAccess = ref(false);
 const shorturldescriptionCreated = ref<ShortUrlDescription>();
 const shortenedUrlStore = useShortenedUrlStore();
 const isFetching = computed(() => shortenedUrlStore.isFetching);
-const $toast = useToast();
+const { $toast } = useNuxtApp();
 
 const shortenizedUrl = computed(() => {
   if (!shorturldescriptionCreated.value)

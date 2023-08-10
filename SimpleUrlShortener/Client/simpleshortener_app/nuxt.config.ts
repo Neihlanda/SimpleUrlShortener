@@ -20,4 +20,5 @@ export default defineNuxtConfig({
       api: '/api',
     },
   },
+  css: ['vue-toast-notification/dist/theme-default.css'],
 });

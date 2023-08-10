@@ -22,8 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import 'vue-toast-notification/dist/theme-sugar.css';
-import { useToast } from 'vue-toast-notification';
 import { ref, onMounted, useRoute, computed } from '#imports';
 import { ShortUrlDescription } from '../models/shorturldescription';
 import { UrlShortenedHistory, SignInLogInForm } from '#components'
@@ -36,7 +34,7 @@ const shortUrlDescriptionToRedirect = ref<ShortUrlDescription>();
 const isLoggedIn = computed(() => account.loggedIn)
 const isFetchingUser = computed(() => account.isFetching)
 
-const $toast = useToast();
+const { $toast } = useNuxtApp();
 const isInit = ref(false);
 
 onMounted(async () => {
