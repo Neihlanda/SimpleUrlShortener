@@ -1,22 +1,17 @@
 <template>
   <div class="navbar bg-primary text-primary-content">
     <div class="navbar-start">
-      <a class="btn btn-ghost normal-case text-xl">SimpleURLShortener</a>
+      <NuxtLink to="/" class="btn btn-ghost normal-case text-xl" > SimpleURLShortener </NuxtLink>
     </div>
 
     <div class="navbar-end">
-      <a v-if="isLoggedIn" class="btn" @click="logOut" >Se deconnecter</a>
+      <a v-if="isLoggedIn" class="btn" @click="account.logout()" >Se deconnecter</a>
     </div>
 
   </div>
 </template>
 
 <script setup>
-
-const isLoggedIn = ref(false)
-
-function logOut(){
-//TODO: call auth logout
-}
-
+const account = useAccountStore();
+const isLoggedIn = computed(() => account.loggedIn);
 </script>

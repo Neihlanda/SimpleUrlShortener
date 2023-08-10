@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SimpleUrlShortener.Commons;
 using SimpleUrlShortener.Models.Requests;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 
 namespace SimpleUrlShortener.Controllers
@@ -43,32 +44,48 @@ namespace SimpleUrlShortener.Controllers
             return Ok();
         }
 
-        [HttpPost("SignIn"), AllowAnonymous]
-        public async Task<IActionResult> SignIn([FromBody] SigninRequest signinRequest)
+        [HttpGet("Me"), AllowAnonymous]
+        public IActionResult UserClaims()
         {
-            if (signinRequest == null)
+            Dictionary<string, dynamic> claims = new();
+            if (User?.Claims?.Any() == true)
+            {
+                foreach (var claimType in User.Claims.GroupBy(t => t.Type))
+                {
+                    JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.TryGetValue(claimType.Key, out string? shortName);
+                    claims[shortName ?? claimType.Key] = claimType.Count() == 1 ? claimType.First().Value : claimType.Select(a => a.Value).ToList();
+                }
+            }
+          
+            return Ok(claims);
+        }
+
+        [HttpPost("Register"), AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
+        {
+            if (registerRequest == null)
                 throw new ArgumentException("Formulaire d'inscription invalide.");
 
-            if (string.IsNullOrEmpty(signinRequest.Password))
+            if (string.IsNullOrEmpty(registerRequest.Password))
                 throw new ArgumentException("Le mot de passe ne peut pas être vide !");
 
-            if (string.IsNullOrEmpty(signinRequest.Login))
+            if (string.IsNullOrEmpty(registerRequest.Login))
                 throw new ArgumentException("Le nom d'utilisateur ne peut pas être vide !");
 
-            if (signinRequest.Password != signinRequest.ConfirmPassword)
+            if (registerRequest.Password != registerRequest.ConfirmPassword)
                 throw new ArgumentException("Le mot de passe et sa confirmation ne correspondent pas !");
 
 
             var result = await _userManager.CreateAsync(new IdentityUser()
             {
                 Id = Guid.NewGuid().ToString(),
-                UserName = signinRequest.Login,
-                Email = signinRequest.Login
-            }, signinRequest.Password);
+                UserName = registerRequest.Login,
+                Email = registerRequest.Login
+            }, registerRequest.Password);
 
             if (result.IsSucceeded())
             {
-                return await Login(new LoginRequest (signinRequest.Login, signinRequest.Password));
+                return await Login(new LoginRequest (registerRequest.Login, registerRequest.Password));
             }
 
             return BadRequest();

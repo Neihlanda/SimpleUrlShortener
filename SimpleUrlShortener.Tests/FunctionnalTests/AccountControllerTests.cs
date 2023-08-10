@@ -49,9 +49,9 @@ namespace SimpleUrlShortener.Tests.FunctionnalTests
         public async Task SignIn_Endpoint_ReturnBadRequestIfSignInInvalid(string login, string password, string confirmPassword)
         {
             var client = _factory.CreateAnonymousHttpClient();
-            var rqst = new SigninRequest(login, password, confirmPassword);
+            var rqst = new RegisterRequest(login, password, confirmPassword);
 
-            var response = await client.PostAsync("api/account/signin", rqst.ToJsonHttpContent());
+            var response = await client.PostAsync("api/account/register", rqst.ToJsonHttpContent());
             var errorDetail = await response.Deserialize<ErrorDetails>();
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -65,9 +65,9 @@ namespace SimpleUrlShortener.Tests.FunctionnalTests
             var client = _factory.CreateAnonymousHttpClient();
             string password = Commons.StringUtility.RandomString(15);
             string login = Commons.StringUtility.RandomString(15);
-            var rqst = new SigninRequest(login, password, password);
+            var rqst = new RegisterRequest(login, password, password);
 
-            var response = await client.PostAsync("api/account/signin", rqst.ToJsonHttpContent());
+            var response = await client.PostAsync("api/account/register", rqst.ToJsonHttpContent());
             var hasSetCookiesResp = response.Headers.TryGetValues("Set-Cookie", out var cookieValueList);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -82,9 +82,9 @@ namespace SimpleUrlShortener.Tests.FunctionnalTests
             var client = _factory.CreateAnonymousHttpClient();
             string password = Commons.StringUtility.RandomString(15);
             string login = Commons.StringUtility.RandomString(15);
-            var rqst = new SigninRequest(login, password, password);
+            var rqst = new RegisterRequest(login, password, password);
 
-            var response = await client.PostAsync("api/account/signin", rqst.ToJsonHttpContent());
+            var response = await client.PostAsync("api/account/register", rqst.ToJsonHttpContent());
 
             using var scope = _factory.Services.CreateScope();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
